@@ -11,7 +11,7 @@ namespace TulaHackWebAPI.Controllers
     public class RegisterController : ControllerBase
     {
         [HttpGet("/Register")]
-        public async Task<IActionResult> Register(string username, string password, string mail, int roleId)
+        public async Task<IActionResult> Register(string username, string password,  int roleId)
         {
                 using (UserDBAppContext dB = new UserDBAppContext())
                 {
@@ -24,7 +24,6 @@ namespace TulaHackWebAPI.Controllers
                     {
                         Login = username,
                         Password = Generators.GetMD5(password),
-                        Mail = mail,
                         RoleId = roleId,
                     };
 

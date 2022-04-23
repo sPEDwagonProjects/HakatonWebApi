@@ -14,7 +14,7 @@ namespace TulaHackWebAPI.Utils
 		public const string ISSUER = "MyAuthServer";
 
 		//Генерация токена
-		public static  (string access_token, int roleid, int expires_in) GenerateToken(User user)
+		public static  (string access_token, string user_name, int roleid, int expires_in) GenerateToken(User user)
         {
 			
 
@@ -45,7 +45,7 @@ namespace TulaHackWebAPI.Utils
 
 
 
-			var res = (new JwtSecurityTokenHandler().WriteToken(jwt), user.RoleId, (int)LifeTime.TotalSeconds);
+			var res = (new JwtSecurityTokenHandler().WriteToken(jwt), user.Login, user.RoleId, (int)LifeTime.TotalSeconds);
 			
 			return res;
 
@@ -67,6 +67,7 @@ namespace TulaHackWebAPI.Utils
 				IssuerSigningKey = Generators.GetSymmetricSecurityKey(Key),
 			};
 		}
+		
 		
 			
 		

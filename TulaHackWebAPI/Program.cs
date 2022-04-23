@@ -24,14 +24,28 @@ builder.Services.AddAuthentication((opt) =>
                         options.TokenValidationParameters = Token.GetTokenValidationParameters();
                     });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllHeaders",
+          builder =>
+          {
+              builder.AllowAnyOrigin()
+                     .AllowAnyHeader()
+                     .AllowAnyMethod();
+                    
+          });
+});
+
+
 var app = builder.Build();
 
+app.UseCors("AllowAllHeaders");
+
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
+
+app.UseSwagger();
     app.UseSwaggerUI();
-}
+
 
 
 //Add JWToken to all incoming HTTP Request Header
@@ -45,7 +59,7 @@ app.Use(async (context, next) =>
     await next();
 });
 
-app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

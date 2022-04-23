@@ -1,6 +1,6 @@
 ﻿namespace TulaHackWebAPI.Model
 {
-    public class BookTypes
+    public class BookType
     {
         
         public int Id { get; set;  }

@@ -11,6 +11,8 @@
         public Publisher? Publisher { get; set; }
         public Lang? Lang { get; set; }
         public Charpter? Charpter { get; set; }
-        public bool Availability { get; set; }
+        public BookType? Type { get; set; }
+        public bool Taken { get; set; }
+        
     }
 }

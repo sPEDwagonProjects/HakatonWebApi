@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -14,9 +15,14 @@ namespace TulaHackWebAPI.Controllers
 
     public class AuthController : ControllerBase
     {
-        
-
-        
+        [Authorize]
+        public async Task<IActionResult> AuthCheck()
+        {
+            return await  Task.Run(() =>
+            {
+                return Ok();
+            });
+        }
         [HttpGet("/Auth")]
         public async Task<IActionResult> Auth(string username, string password)
         {
@@ -33,6 +39,7 @@ namespace TulaHackWebAPI.Controllers
             //Формеруем ответ
             var response = new
             {
+                username=token.user_name,
                 access_token = token.access_token,
                 role = token.roleid,
                 experiense_in = token.expires_in,

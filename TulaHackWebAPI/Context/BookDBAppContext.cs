@@ -12,9 +12,7 @@ namespace TulaHackWebAPI.Context
         private DbSet<Author> Authors { get; set; }
         private DbSet<Charpter> Charpters { get; set; }
         private DbSet<BookMinimal> Books { get; set; }
-        private DbSet<BookTypes> Types { get; set; }
-        
-
+        private DbSet<BookType> Types { get; set; }
         public async Task<bool> DeleteBook(int id)
         {
             try
@@ -44,6 +42,7 @@ namespace TulaHackWebAPI.Context
                 bookFull.Publisher = await GetPublisherById((int)res.PublisherId);
                 bookFull.Charpter = await GetCharpterById((int)res.CharpterId);
                 bookFull.Lang = await GetLangById((int)res.LangId);
+                bookFull.Type = await GetBookTypeById((int)res.Type);
             
                 return bookFull;
             
@@ -87,7 +86,10 @@ namespace TulaHackWebAPI.Context
         {
             return await Charpters.FirstOrDefaultAsync(x => x.Id == id);
         }
-        
+        public async Task<BookType?> GetBookTypeById(int id)
+        {
+           return  await Types.FirstOrDefaultAsync(x => x.Id == id);
+        } 
         
         public async Task<List<Publisher>> GetPublishers()
         {
@@ -106,7 +108,7 @@ namespace TulaHackWebAPI.Context
             return await Langs.ToListAsync();
         }
 
-        public async Task<List<BookTypes>> GetTypes()
+        public async Task<List<BookType>> GetTypes()
         {
             return await  Types.ToListAsync();
         }
