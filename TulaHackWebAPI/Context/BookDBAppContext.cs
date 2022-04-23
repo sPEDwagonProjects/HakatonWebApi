@@ -13,7 +13,7 @@ namespace TulaHackWebAPI.Context
         private DbSet<Charpter> Charpters { get; set; }
         private DbSet<BookMinimal> Books { get; set; }
         private DbSet<BookTypes> Types { get; set; }
-        private DbSet<>
+        
 
         public async Task<bool> DeleteBook(int id)
         {
