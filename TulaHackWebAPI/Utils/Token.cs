@@ -9,7 +9,7 @@ namespace TulaHackWebAPI.Utils
 	public static class Token
 	{
 		public const string Key = "jXEIIrquioTfLCzq";
-		public static TimeSpan LifeTime = TimeSpan.FromSeconds(10000);
+		public static TimeSpan LifeTime = TimeSpan.FromDays(1);
 		public const string AUDIENCE = "MyAuthClient";
 		public const string ISSUER = "MyAuthServer";
 
