@@ -13,18 +13,100 @@ namespace TulaHackWebAPI.Context
         private DbSet<Charpter> Charpters { get; set; }
         private DbSet<BookMinimal> Books { get; set; }
         private DbSet<BookType> Types { get; set; }
-        public async Task<bool> DeleteBook(int id)
+        private DbSet<Booking> Booking { get; set; }
+        private DbSet<Favorites> Favorites { get; set; }
+
+        public async Task<bool> DeleteBooking(int bookingId)
         {
             try
             {
-                Books.Remove(await GetBookById(id));
+                Booking.Remove(Booking.First(x => x.Id == bookingId));
                 await SaveChangesAsync();
                 return true;
             }
-            catch(Exception ex) { return false; }
+            catch (Exception ex) { return false; }
         }
-        
+        public async Task<bool> DeleteFavorite(int favoritesId)
+        {
+            try
+            {
+                Favorites.Remove(Favorites.First(x => x.Id == favoritesId));
+                await SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex) { return false; }
+        }
+
+        public async Task<bool> AddBooking(int bookId, int userId)
+        {
+            try
+            {
+                Booking booking = new Booking();
+                booking.Idbook = bookId;
+                booking.Iduser = userId;
+
+                Booking.Add(booking);
+                
+                await SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex) { return false; }
+        }
+        public async Task<bool> AddFavorite(int bookid, int userId)
+        {
+            try
+            {
+                Favorites favorite = new Favorites();
+                favorite.BookId = bookid;
+                favorite.UserId = userId;
+
+                Favorites.Add(favorite);
+
+                await SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex) { return false; }
+        }
+
+
+
+
+        #region Search
+        public async Task<List<BookMinimal>> SearchByCharpter(string text)
+        {
+            List<BookMinimal> results = new List<BookMinimal>();
+            var charptersId = await  Charpters.Where(x => x.Title.Contains(text)).Select(x=>x.Id).ToListAsync();
+            foreach(var id in charptersId)
+            {
+                var books = await Books.Where(x => x.CharpterId == id).ToListAsync();
+                foreach(var book in books)
+                {
+                    results.Add(book);
+                }
+                
+            }
+            return results;
+            
+        }
+        public async Task<List<BookMinimal>> SearchByPublisher(string text)
+        {
+            List<BookMinimal> results = new List<BookMinimal>();
+            var publishersId = await Publishers.Where(x => x.Title.Contains(text)).Select(x => x.Id).ToListAsync();
+            foreach (var id in publishersId)
+            {
+                var books = await Books.Where(x => x.PublisherId == id).ToListAsync();
+                foreach (var book in books)
+                {
+                    results.Add(book);
+                }
+
+            }
+            return results;
+        }
+        #endregion
+
         #region Get
+       
         public async Task<BookMinimal> GetBookById(int id)
         {
             return  await Books.FirstOrDefaultAsync(x => x.Id == id);
@@ -111,6 +193,16 @@ namespace TulaHackWebAPI.Context
         public async Task<List<BookType>> GetTypes()
         {
             return await  Types.ToListAsync();
+        }
+        
+        public async Task<List<Booking>> GetBooking(User user)
+        {
+            return await Booking.Where(x=>x.Iduser == user.Id).ToListAsync();
+        }
+
+        public async Task<List<Favorites>> GetFavorites(User user)
+        {
+            return await Favorites.Where(x => x.UserId == user.Id).ToListAsync();
         }
 
         #endregion

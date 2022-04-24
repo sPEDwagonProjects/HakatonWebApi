@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\Новая папка\" />
     <Folder Include="Enums\" />
     <Folder Include="Etc\Новая папка\" />
   </ItemGroup>

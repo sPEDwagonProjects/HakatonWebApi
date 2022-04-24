@@ -16,7 +16,10 @@ namespace TulaHackWebAPI.Context
             Console.WriteLine(Users.Count());
             return await Users.Where(x => x.Login == login).CountAsync() > 0;    
         }
-        
+        public async Task<User> GetUserByLogin(string login)
+        {
+             return await Users.FirstOrDefaultAsync(x => x.Login == login);
+        }
 
        
        

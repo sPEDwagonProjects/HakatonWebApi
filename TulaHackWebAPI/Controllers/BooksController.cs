@@ -9,8 +9,8 @@ namespace TulaHackWebAPI.Controllers
     [Authorize]
     [ApiController]
     [Route("[controller]")]
-  
-    public class BooksController:ControllerBase
+
+    public class BooksController : ControllerBase
     {
 
         [HttpGet("/books.getBookById")]
@@ -51,13 +51,13 @@ namespace TulaHackWebAPI.Controllers
                         var res = await bookDBAppContext.GetBooks(count, offset);
                         return Ok(res);
                     }
-                    else { 
+                    else {
 
                         var data = await bookDBAppContext.GetBooks(count, offset);
                         List<BookFull> fullData = new List<BookFull>();
-                        foreach(var item in data)
+                        foreach (var item in data)
                         {
-                            var res = await  bookDBAppContext.GetFullBookById(item.Id);
+                            var res = await bookDBAppContext.GetFullBookById(item.Id);
                             fullData.Add(res);
                         }
 
@@ -90,7 +90,7 @@ namespace TulaHackWebAPI.Controllers
 
                 return BadRequest(ex.Message);
             }
-            
+
         }
 
         [HttpGet("/books.getByCharpter")]
@@ -186,5 +186,45 @@ namespace TulaHackWebAPI.Controllers
 
 
         }
+
+        [HttpGet("/books.searchByPublisher")]
+        public async Task<IActionResult> SearchByPublisher(string text)
+        {
+            try
+            {
+                using (BookDBAppContext bookDBAppContext = new BookDBAppContext())
+                {
+                    var res = await bookDBAppContext.SearchByPublisher(text);
+                    return Ok(res);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("/books.searchByCharpter")]
+        public async Task<IActionResult> SearchByCharpter(string text)
+        {
+            try
+            {
+                using (BookDBAppContext bookDBAppContext = new BookDBAppContext())
+                {
+                    var res = await bookDBAppContext.SearchByCharpter(text);
+                    return Ok(res);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+     
+
+
     }
+
 }
+
