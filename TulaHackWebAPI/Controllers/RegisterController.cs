@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using TulaHackWebAPI.Context;
@@ -10,8 +11,9 @@ namespace TulaHackWebAPI.Controllers
     [Route("[controller]")]
     public class RegisterController : ControllerBase
     {
+       
         [HttpGet("/Register")]
-        public async Task<IActionResult> Register(string username, string password,  int roleId)
+        public async Task<IActionResult> Register(string username, string password)
         {
                 using (UserDBAppContext dB = new UserDBAppContext())
                 {
@@ -24,7 +26,7 @@ namespace TulaHackWebAPI.Controllers
                     {
                         Login = username,
                         Password = Generators.GetMD5(password),
-                        RoleId = roleId,
+                        RoleId = 0,
                     };
 
                    await dB.AddAsync(newuser);

@@ -12,7 +12,16 @@ namespace TulaHackWebAPI.Controllers
 
     public class BooksController : ControllerBase
     {
-
+        [Authorize(Roles = "1")]
+        [HttpGet("/books.Edit")]
+        public async Task<IActionResult> Edit(int id, string title, string author, string publisher)
+        {
+            using (BookDBAppContext bookDBAppContext = new BookDBAppContext())
+            {
+                 return Ok(await bookDBAppContext.EditBook(id, title, author, publisher));
+                 
+            }
+        }
         [HttpGet("/books.getBookById")]
         public async Task<IActionResult> GetBookByid(int id, bool fullInfo = false)
         {

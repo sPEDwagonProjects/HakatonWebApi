@@ -16,6 +16,44 @@ namespace TulaHackWebAPI.Context
         private DbSet<Booking> Booking { get; set; }
         private DbSet<Favorites> Favorites { get; set; }
 
+        public async Task<bool> EditBook(int id,string title,string author, string publisher)
+        {
+            try
+            {
+              var book =  new BookMinimal()
+                {
+                    Id = id,
+                    AuthorId = await GetAuthorIdByName(author),
+                    PublisherId= await GetPublisherIdByName(publisher),
+                    
+                };
+                Books.Update(book);
+                return true;
+            }
+            catch (Exception ex) { return false; }
+        }
+        public async Task<int> GetAuthorIdByName(string name)
+        {
+            try
+            {
+                return   Authors.First(x => x.Name == name).Id;
+            }
+            catch(Exception ex)
+            {
+                return -1;
+            }
+        }
+        public async Task<int> GetPublisherIdByName(string title)
+        {
+            try
+            {
+                return Publishers.First(x => x.Title == title).Id;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
         public async Task<bool> DeleteBooking(int bookingId)
         {
             try

@@ -62,7 +62,6 @@ namespace TulaHackWebAPI.Controllers
         {
             try
             {
-
                 using (BookDBAppContext bookDBAppContext = new BookDBAppContext())
                 {
                     var res = await bookDBAppContext.DeleteBooking(id);

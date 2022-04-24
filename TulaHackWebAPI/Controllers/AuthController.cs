@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -23,6 +24,7 @@ namespace TulaHackWebAPI.Controllers
                 return Ok();
             });
         }
+       
         [HttpGet("/Auth")]
         public async Task<IActionResult> Auth(string username, string password)
         {

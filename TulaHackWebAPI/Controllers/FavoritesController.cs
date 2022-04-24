@@ -48,7 +48,7 @@ namespace TulaHackWebAPI.Controllers
                     {
                         var res = await bookDBAppContext.AddFavorite(bookId,user.Id);
 
-                        return Ok();
+                        return Ok(res);
                     }
                 }
             }

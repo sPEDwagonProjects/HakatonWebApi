@@ -29,10 +29,12 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAllHeaders",
           builder =>
           {
-              builder.AllowAnyOrigin()
-                     .AllowAnyHeader()
-                     .AllowAnyMethod();
+              builder.AllowAnyOrigin();
+              builder.AllowAnyHeader();
                     
+
+
+
           });
 });
 
